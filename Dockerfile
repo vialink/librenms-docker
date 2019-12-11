@@ -108,14 +108,17 @@ RUN mkdir -p /opt \
   && echo "foreach (glob(\"/data/config/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && echo "foreach (glob(\"${LIBRENMS_PATH}/config.d/*.php\") as \$filename) include \$filename;" >> ${LIBRENMS_PATH}/config.php \
   && pip3 install -r ${LIBRENMS_PATH}/requirements.txt \
-  && chown -R nobody.nogroup ${LIBRENMS_PATH} \
+  && chown -R nobody.nogroup ${LIBRENMS_PATH} \  
   && rm -rf ${LIBRENMS_PATH}/.git /tmp/*
 
 COPY rootfs /
 
 RUN addgroup -g ${PGID} librenms \
   && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms \
-  && mkdir -p /data /var/run/nginx /var/run/php-fpm
+  && usermod -aG adm librenms \
+  && mkdir -p /data /var/run/nginx /var/run/php-fpm \
+  && setcap cap_net_raw+ep /usr/sbin/fping6 \
+  && setcap cap_net_raw+ep /usr/sbin/fping
 
 EXPOSE 8000 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
