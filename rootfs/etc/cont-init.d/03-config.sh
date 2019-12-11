@@ -188,6 +188,8 @@ echo "Fixing perms..."
 chown librenms. /data/config /data/monitoring-plugins /data/rrd
 chown -R librenms. /data/logs ${LIBRENMS_PATH}/config.d ${LIBRENMS_PATH}/bootstrap ${LIBRENMS_PATH}/logs ${LIBRENMS_PATH}/storage
 chmod ug+rw /data/logs /data/rrd ${LIBRENMS_PATH}/bootstrap/cache ${LIBRENMS_PATH}/storage ${LIBRENMS_PATH}/storage/framework/*
+setcap cap_net_raw+ep /usr/sbin/fping6 
+setcap cap_net_raw+ep /usr/sbin/fping
 
 # Check additional Monitoring plugins
 echo "Checking additional Monitoring plugins..."

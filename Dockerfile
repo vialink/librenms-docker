@@ -116,9 +116,7 @@ COPY rootfs /
 RUN addgroup -g ${PGID} librenms \
   && adduser -D -h ${LIBRENMS_PATH} -u ${PUID} -G librenms -s /bin/sh -D librenms \
   && usermod -aG adm librenms \
-  && mkdir -p /data /var/run/nginx /var/run/php-fpm \
-  && setcap cap_net_raw+ep /usr/sbin/fping6 \
-  && setcap cap_net_raw+ep /usr/sbin/fping
+  && mkdir -p /data /var/run/nginx /var/run/php-fpm 
 
 EXPOSE 8000 514 514/udp
 WORKDIR ${LIBRENMS_PATH}
